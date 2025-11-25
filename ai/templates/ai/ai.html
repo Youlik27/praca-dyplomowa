@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+
+    <!-- Banner -->
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
+
+                    <h1 class="banner-heading h1 text-secondary display-4 mb-4 light-300">
+                        Zapytaj AI
+                    </h1>
+
+                    <p class="fs-5 text-muted mb-4">
+                        Wpisz dowolne pytanie lub prośbę — AI odpowie natychmiast.
+                    </p>
+
+                    <!-- FORM -->
+                    <form th:action="@{/query}" method="post"
+                          class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
+
+                        <input type="text" name="prompt"
+                               class="form-control form-control-lg rounded-pill px-4"
+                               placeholder="Wpisz zapytanie do Ollama"
+                               required
+                               style="max-width: 450px;">
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg rounded-pill px-4">
+                            Wyślij
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Response -->
+    <section class="container py-5">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+                <div th:if="${response != null}"
+                     class="alert alert-light border rounded p-4 shadow-sm"
+                     style="white-space: pre-wrap; font-size: 1.1rem;">
+
+                    <p th:utext="${response}" class="mb-0"></p>
+
+                </div>
+
+                <div th:if="${response == null}"
+                     class="text-center text-muted fst-italic">
+                    Wpisz zapytanie, aby otrzymać odpowiedź.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back button -->
+    <div class="container pb-5">
+        <div class="text-center border-top pt-5">
+            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+            </a>
+        </div>
+    </div>
+
+    <!-- Styles -->
+    <style>
+        .alert-light {
+            background-color: #f8f9fa;
+        }
+
+        .banner-heading {
+            font-weight: 300;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+    </style>
+
+</section>
+</html>

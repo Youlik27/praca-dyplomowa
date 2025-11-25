@@ -1,0 +1,29 @@
+{%extends 'main/layouts/layout.html' %}
+{% block content %}
+<section>
+    <div class="banner-wrapper bg-light">
+      <div class="container py-5">
+        <div class="row py-5">
+          <div class="col-lg-8 col-md-10 m-auto text-center">
+
+            <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
+              Witaj w AI Dictionary
+            </h1>
+            <p class="banner-body text-muted py-3 fs-4">
+              Wprowadź słowo po angielsku, aby wyszukać tłumaczenie.
+            </p>
+
+            <div class="position-relative" style="max-width: 800px; margin: 0 auto;">
+
+              <form class="d-flex justify-content-center" role="search" onsubmit="return false;">
+                  <input type="search" id="searchInput" class="form-control" placeholder="Szukaj..." autocomplete="off">
+              </form>
+                <div id="resultsList" class="text-start"></div> </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
