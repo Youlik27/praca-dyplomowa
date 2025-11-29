@@ -1,0 +1,79 @@
+{% extends 'main/layouts/layout.html' %}
+
+{% block content %}
+<section>
+
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
+                    <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
+                        Twoje Kolekcje
+                    </h1>
+                    <p class="fs-5 text-muted mb-4">
+                        Wybierz grupę słów, aby rozpocząć naukę lub edytować zawartość.
+                    </p>
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'create_group' %}" class="btn btn-outline-primary rounded-pill px-4">
+                        <i class='bx bx-plus me-1'></i> Dodaj nową grupę
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container py-5">
+        <div class="row">
+            <h2 class="h2 text-center col-12 pb-4 semi-bold-600">Dostępne zestawy</h2>
+        </div>
+
+        <div class="row">
+            {% for group in groups %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm transition-hover">
+                    <div class="card-body text-center p-4 d-flex flex-column">
+
+                        <div class="mb-3">
+                            <i class='bx bx-folder-open display-4 text-primary'></i>
+                        </div>
+
+                        <h3 class="h4 card-title semi-bold-600 text-secondary mb-3">
+                            {{ group.name }}
+                        </h3>
+
+                        <p class="card-text text-muted flex-grow-1">
+                            {{ group.description|default:"Brak opisu"|truncatewords:15 }}
+                        </p>
+
+                        <div class="mb-4">
+                            <span class="badge bg-secondary rounded-pill fw-normal px-3 py-2">
+                                <i class='bx bx-list-ul me-1'></i> {{ group.word_set.count }} słów
+                            </span>
+                        </div>
+
+                        <a href="{% url 'group_detail' group.id %}" class="btn btn-primary rounded-pill px-4 w-100 mt-auto">
+                            Otwórz
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted fs-4">Nie masz jeszcze żadnych kolekcji.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <div class="container py-5">
+        <div class="text-center border-top pt-5">
+            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+            </a>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

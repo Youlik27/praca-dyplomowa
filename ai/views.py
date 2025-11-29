@@ -1,8 +1,7 @@
 import re
-from django.contrib.sites import requests
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
-
+import requests
 
 def ai_view(request):
     context = {}
@@ -54,4 +53,4 @@ def ai_view(request):
             except Exception as e:
                 context['response'] = f"Wystąpił błąd: {str(e)}"
 
-    return render(request, 'ai.html', context)
+    return render(request, 'ai/ai.html', context)

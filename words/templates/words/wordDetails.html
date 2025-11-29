@@ -44,139 +44,15 @@
             <h2 class="h2 text-center col-12 pb-4 semi-bold-600">Tłumaczenia</h2>
         </div>
         <div class="d-flex justify-content-center flex-wrap gap-3">
-        <!--{% if definitions_without_to %}
-            {% for el in definitions_without_to %}
+            {% for pos, el in definitions.items %}
                 <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-             {% endfor %}
-        {% else %}
-            <div class="d-flex justify-content-center">
-                <span class="text-muted fs-5 fst-italic">Brak tłumaczeń.</span>
-            </div>
-        {% endif %}-->
-        </div>
-    </section>
-
-    {% if nouns %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Rzeczowniki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in nouns %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
+                    {{ el.polish_word.word }}
+                    <small class="ms-1 fst-italic">({{ pos }})</small>
                 </span>
             {% endfor %}
         </div>
     </section>
-    {% endif %}
 
-    {% if verbs %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Czasowniki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in verbs %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if adjectives %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Przymiotniki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in adjectives %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if adverbs %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Przysłówki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in adverbs %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if prepositions %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Przyimki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in prepositions %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if pronouns %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Zaimki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in pronouns %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if conjunctions %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Spójniki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in conjunctions %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
-
-    {% if determiners %}
-    <section class="container pb-5">
-        <div class="row">
-            <h3 class="h3 text-center col-12 pb-3 text-secondary">Określniki</h3>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for el in determiners %}
-                <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                    {{el.polish_word.word}}
-                </span>
-            {% endfor %}
-        </div>
-    </section>
-    {% endif %}
 
     <div class="container py-5">
         <div class="text-center border-top pt-5">

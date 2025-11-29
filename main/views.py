@@ -1,3 +1,4 @@
+from django.db.models.functions import Length
 from django.http import JsonResponse
 from django.shortcuts import render
 from core.models import PolishWord, UserEnglishVocabulary, EnglishWord
@@ -11,9 +12,7 @@ def search(request):
     query = request.GET.get('query', '').strip()
     if not query:
         return JsonResponse([], safe=False)
-    exact_matches= EnglishWord.objects.filter(word=query)
-    partial_matches = EnglishWord.objects.filter(word__icontains=query).order_by('frequency')
-    words = list(exact_matches) + [w for w in partial_matches if w not in exact_matches]
-    words = [w for w in words if len(w.word) <= 30][:5]
-    words_data = [{'word': w.word} for w in words]
+    matches = EnglishWord.objects.filter(word__icontains=query).order_by(Length('word'))[:10]
+
+    words_data = [{'word': w.word, 'id': w.id} for w in matches]
     return JsonResponse(words_data, safe=False)

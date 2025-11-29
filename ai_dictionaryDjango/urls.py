@@ -24,5 +24,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('words/', include('words.urls')),
     path('account/', include('accounts.urls')),
-    path('assistant/', include('assistant.urls')),
+    path('assistant/', include('ai.urls')),
 ]
