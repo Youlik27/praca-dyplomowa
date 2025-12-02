@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path('assistant/', views.ai_view, name='ai_query'),
-
+    path('', views.ai_dictionary_view, name='ai_query'),
+    path('make/collection', views.make_collection, name='ai_collection'),
 ]

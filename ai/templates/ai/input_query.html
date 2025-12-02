@@ -8,21 +8,21 @@
                 <div class="col-lg-8 col-md-10 m-auto text-center">
 
                     <h1 class="banner-heading h1 text-secondary display-4 mb-4 light-300">
-                        Zapytaj AI
+                        Co chcesz mieć w swojej kolekcji?
                     </h1>
 
                     <p class="fs-5 text-muted mb-4">
-                        Wpisz dowolne pytanie lub prośbę — AI odpowie natychmiast.
+                        AI dobierze Ci kolekcję do Twojego zapytania.
                     </p>
 
-                    <form action="{% url 'ai_query' %}" method="post"
+                    <form action="{% url 'ai_collection' %}" method="post"
                           class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-3">
                         
                         {% csrf_token %}
 
                         <input type="text" name="prompt"
                                class="form-control form-control-lg rounded-pill px-4"
-                               placeholder="Wpisz zapytanie do Ollama"
+                               placeholder=""
                                required
                                style="max-width: 450px;">
 
@@ -37,6 +37,7 @@
         </div>
     </div>
 
+</section>
     <section class="container py-5">
         <div class="row justify-content-center">
 
@@ -44,7 +45,7 @@
                 {% if response %}
                     <div class="alert alert-light border rounded p-4 shadow-sm"
                          style="white-space: pre-wrap; font-size: 1.1rem;">
-                        
+
                         <p class="mb-0">{{ response }}</p>
 
                     </div>
@@ -56,5 +57,4 @@
             </div>
         </div>
     </section>
-</section>
 {% endblock %}
