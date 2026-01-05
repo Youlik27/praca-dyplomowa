@@ -33,6 +33,25 @@
     </div>
     <section class="container py-5">
         <div class="row justify-content-center">
+            {% if messages %}
+            <div class="col-lg-10 mb-3">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger bg-danger text-white{% elif message.tags == 'success' %}alert-success bg-success text-white{% else %}alert-info{% endif %} border-0 shadow-sm rounded-3 alert-dismissible fade show" role="alert" style="--bs-bg-opacity: .8;">
+                        <div class="d-flex align-items-center">
+                            {% if message.tags == 'success' %}
+                                <i class='bx bx-check-circle fs-4 me-2'></i>
+                            {% elif message.tags == 'error' %}
+                                <i class='bx bx-error-circle fs-4 me-2'></i>
+                            {% else %}
+                                <i class='bx bx-info-circle fs-4 me-2'></i>
+                            {% endif %}
+                            <span class="fw-normal">{{ message }}</span>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             <div class="col-lg-10 mb-5">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body p-4">
@@ -63,7 +82,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="h3 semi-bold-600 text-secondary">Lista słów</h2>
                     <span class="badge bg-secondary rounded-pill px-3 py-2">
-                        {{ group.word_set.count }} słów
+                        Słów: {{ c_words }}
                     </span>
                 </div>
 
@@ -85,10 +104,12 @@
                                             {{ item.word.word }}
                                         </td>
                                         <td class="text-secondary">
-                                            {% for pos, el in item.definitions.items %}
-                                                <span class="badge bg-light text-dark border">
-                                                     {{ el.polish_word.word }}
-                                                </span>
+                                            {% for pos, def_list in item.definitions.items %}
+                                                {% for definition in def_list %}
+                                                    <span class="badge bg-light text-dark border">
+                                                         {{ definition.polish_word.word }}
+                                                    </span>
+                                                {% endfor %}
                                             {% empty %}
                                                 <span class="text-muted">-</span>
                                             {% endfor %}
@@ -96,7 +117,7 @@
                                         <td class="text-end pe-4">
                                             <div class="d-flex justify-content-end gap-2">
 
-                                                <form action="{#% url 'delete_word' word.id %#}" method="POST" class="d-inline">
+                                                <form action="{% url 'remove_word_from_collection' collection.id item.word.id  %}" method="POST" class="d-inline">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" title="Usuń słowo">
                                                         <i class='bx bx-x'></i>

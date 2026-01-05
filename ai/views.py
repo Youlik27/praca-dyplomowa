@@ -1,7 +1,11 @@
 import requests
 import re
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.utils.safestring import mark_safe
+
+from core.models import WordGroup, WordGroupMembership, EnglishWord
+
 
 
 def call_llm_api(prompt, model="deepseek-v3.1:671b-cloud"):
@@ -91,6 +95,31 @@ def make_collection(request):
             if error:
                 context['response'] = error
             else:
-                context['response'] = mark_safe(raw_response)
+                match = re.search(r"Name:\s*(.*?);\s*Words:\s*(.*?);", raw_response, re.DOTALL)
+                if match:
+                    collection_name = match.group(1).strip()
+                    words_string = match.group(2).strip()
+                    words_list = [w.strip() for w in words_string.split(',')]
+                    collection = WordGroup.objects.create(
+                        name = collection_name,
+                        owner = request.user,
+                        created_at = timezone.now(),
+                    )
+                    for word in words_list:
+                        try:
+                            english_word = EnglishWord.objects.get(word=word)
 
-    return render(request, 'ai/input_query.html', context)
+                            WordGroupMembership.objects.create(
+                                word=english_word,
+                                group=collection,
+                                added_at=timezone.now()
+                            )
+                        except EnglishWord.DoesNotExist:
+                            continue
+                    return redirect('collection_menu')
+
+
+                else:
+                    context['error'] = "Nie udało się rozpoznać formatu odpowiedzi od AI."
+    else:
+        return render(request, 'ai/input_query.html')

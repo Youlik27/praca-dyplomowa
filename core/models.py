@@ -82,7 +82,6 @@ class WordGroup(models.Model):
         db_table = 'word_groups'
         verbose_name = 'Word Group'
         verbose_name_plural = 'Word Groups'
-        unique_together = ('owner', 'name')
 
     def __str__(self):
         return f"{self.name} (by {self.owner.username})"
