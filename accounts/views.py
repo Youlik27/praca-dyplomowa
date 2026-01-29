@@ -39,10 +39,13 @@ def vocabulary_view(request):
     nieZnamWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'NIE_ZNAM')
     uczeSieWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'UCZE_SIE')
     znamWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'ZNAM')
-    wazneWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'WAZNE')
     return render(request, 'accounts/userVocabulary.html', {
         'nieZnamWords': nieZnamWords,
         'uczeSieWords': uczeSieWords,
         'znamWords': znamWords,
-        'wazneWords': wazneWords,
     })
+
+
+def profile_view(request):
+    user = request.user
+    return render(request, 'accounts/profile.html', {user:user})

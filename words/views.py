@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect, get_object_or_404
 
-from core.models import EnglishWord, UserEnglishVocabulary, WordDefinition, WordGroup, WordGroupMembership
+from core.models import EnglishWord, UserEnglishVocabulary, WordDefinition, WordList, WordListMembership
 from django.utils import timezone
 
 
@@ -69,54 +69,3 @@ def change_word_status(request, word_name):
             )
             return redirect('details', word_name)
     return redirect('details', word_name=word_name)
-
-def view_groups_menu(request):
-
-    groups = WordGroup.objects.filter(owner_id=request.user)
-    return render(request, 'words/collectionsMenu.html', {'groups': groups})
-def create_collection(request):
-    WordGroup.objects.create(
-        name = 'Collection' + timezone.now().strftime("%y%m%d%H%M%S"),
-        owner_id = request.user.id
-    )
-    return redirect('collection_menu')
-def count_words(collection_id):
-    c_words = WordGroupMembership.objects.filter(group_id=collection_id).count()
-    return c_words
-
-
-def manage_collection(request, collection_id):
-    collection = get_object_or_404(WordGroup, id=collection_id)
-    words = WordGroupMembership.objects.filter(group_id = collection)
-    words_data = []
-    for word in words:
-        english_word = word.word
-        definitions = get_top_definitions_by_pos(english_word)
-        words_data.append({
-            'word': english_word,
-            'definitions': definitions
-        })
-    c_words = count_words(collection)
-    return render(request, 'words/manage_collections.html', {'collection': collection, 'words_data': words_data, 'c_words': c_words})
-def add_word_to_collection(request, collection_id):
-    collection = get_object_or_404(WordGroup, id=collection_id)
-    word_request = request.POST.get('word')
-    word = EnglishWord.objects.get(word=word_request)
-    word_in_database = WordGroupMembership.objects.filter(word=word, group = collection)
-    if not word_in_database.exists():
-        WordGroupMembership.objects.create(
-            word_id = word.id,
-            group_id = collection.id,
-            added_at = timezone.now()
-        )
-        messages.success(request, f'Słowo "{word.word}" zostało dodane do kolekcji.')
-    else:
-        error_message = 'Słowo jest już zapisane w tej kolekcji'
-        messages.error(request, error_message)
-    return redirect('manage_collection', collection_id)
-
-def remove_word_from_collection(request, collection_id, word_id ):
-    collection = get_object_or_404(WordGroup, id=collection_id)
-    word = EnglishWord.objects.get(id=word_id)
-    WordGroupMembership.objects.filter(group=collection, word=word).delete()
-    return redirect('manage_collection' , collection.id)

@@ -8,21 +8,37 @@
                 <div class="col-lg-8 col-md-10 m-auto text-center">
 
                     <div class="mb-3">
-                        <i class='bx bx-folder-open display-2 text-primary'></i>
+                        <i class='bx bx-list-ul display-2 text-primary'></i>
                     </div>
 
-                    <h1 class="banner-heading h1 text-secondary display-4 mb-3 light-300">
-                        {{ group.name }}
-                    </h1>
+                    <div id="display-name-container" class="cursor-pointer" onclick="showEditForm()" style="cursor: pointer;">
+                        <h1 id="list-name-display" class="banner-heading h1 text-secondary display-4 mb-3 light-300">
+                            {{ word_list.name }}
+                            <i class='bx bx-edit-alt fs-4 text-muted ms-2'></i>
+                        </h1>
+                    </div>
+
+                    <form id="edit-name-form" action="{% url 'update_word_list_name' word_list.id %}" method="POST" class="d-none mb-4">
+                        {% csrf_token %}
+                        <div class="input-group input-group-lg m-auto shadow-sm" style="max-width: 600px;">
+                            <input type="text" name="new_name" class="form-control border-primary" value="{{ word_list.name }}" required id="list-name-input">
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class='bx bx-check'></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="hideEditForm()">
+                                <i class='bx bx-x'></i>
+                            </button>
+                        </div>
+                    </form>
 
                     <p class="fs-5 text-muted mb-4">
-                        Zarządzaj słowami w tej kolekcji. Dodawaj nowe lub usuwaj te, które już znasz.
+                        Zarządzaj słowami na tej liście. Dodawaj nowe lub usuwaj te, które już znasz.
                     </p>
                     <div class="d-flex justify-content-center gap-3">
-                        <form action="{#% url 'delete_group' group.id %#}" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć tę kolekcję? Tej operacji nie można cofnąć.');">
+                        <form action="{% url 'delete_word_list' word_list.id %}" method="POST" onsubmit="return confirm('Czy na pewno chcesz usunąć tę listę? Tej operacji nie można cofnąć.');">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-danger rounded-pill px-4 py-2">
-                                <i class='bx bx-trash me-1'></i> Usuń kolekcję
+                                <i class='bx bx-trash me-1'></i> Usuń listę
                             </button>
                         </form>
                     </div>
@@ -59,19 +75,19 @@
                             <i class='bx bx-plus-circle me-2 text-primary'></i>Dodaj nowe słowo
                         </h4>
 
-                        <form action="{% url 'word_add' collection.id %}" method="POST">
+                        <form action="{% url 'add_word_to_list' word_list.id %}" method="POST">
                             {% csrf_token %}
 
                             <div class="input-group input-group-lg">
-                                <input type="search"  class="form-control bg-light border-0" id="addWordInput" name="word" placeholder="Wpisz słowo (np. Apple)..." aria-label="Wpisz słowo" autocomplete="off">
-                            <button class="btn btn-primary px-4" type="submit">
-                                <i class='bx bx-plus me-1'></i> Dodaj
-                            </button>
+                                <input type="search" class="form-control bg-light border-0" id="addWordInput" name="word" placeholder="Wpisz słowo (np. Apple)..." aria-label="Wpisz słowo" autocomplete="off">
+                                <button class="btn btn-primary px-4" type="submit">
+                                    <i class='bx bx-plus me-1'></i> Dodaj
+                                </button>
                                 <div id="addWordResults" class="position-absolute w-100 start-0 z-3" style="top: 100%;"></div>
                             </div>
 
                             <div class="form-text ms-2 mt-2 text-muted small">
-                                <i class='bx bx-info-circle'></i> Wpisz słowo, a system spróbuje znaleźć tłumaczenie.
+                                <i class='bx bx-info-circle'></i> Wpisz słowo, а system spróbuje znaleźć tłumaczenie.
                             </div>
                         </form>
                     </div>
@@ -82,7 +98,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2 class="h3 semi-bold-600 text-secondary">Lista słów</h2>
                     <span class="badge bg-secondary rounded-pill px-3 py-2">
-                        Słów: {{ c_words }}
+                        Słów: {{ word_count }}
                     </span>
                 </div>
 
@@ -116,8 +132,7 @@
                                         </td>
                                         <td class="text-end pe-4">
                                             <div class="d-flex justify-content-end gap-2">
-
-                                                <form action="{% url 'remove_word_from_collection' collection.id item.word.id  %}" method="POST" class="d-inline">
+                                                <form action="{% url 'remove_word_from_list' word_list.id item.word.id %}" method="POST" class="d-inline">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle" title="Usuń słowo">
                                                         <i class='bx bx-x'></i>
@@ -130,7 +145,7 @@
                                     <tr>
                                         <td colspan="3" class="text-center py-5 text-muted">
                                             <i class='bx bx-ghost fs-1 mb-2'></i>
-                                            <p>Ta kolekcja jest pusta. Dodaj pierwsze słowo powyżej!</p>
+                                            <p>Ta lista jest pusta. Dodaj pierwsze słowo powyżej!</p>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -146,8 +161,8 @@
 
     <div class="container pb-5">
         <div class="text-center pt-3">
-            <a href="{#% url 'groups_list' %#}" class="btn btn-link text-secondary text-decoration-none">
-                <i class='bx bx-arrow-back me-1'></i> Wróć do listy kolekcji
+            <a href="{% url 'word_lists_menu' %}" class="btn btn-link text-secondary text-decoration-none">
+                <i class='bx bx-arrow-back me-1'></i> Wróć do moich list
             </a>
         </div>
     </div>

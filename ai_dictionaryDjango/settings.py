@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'ai',
+    'wordlists',
+    'quiz'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

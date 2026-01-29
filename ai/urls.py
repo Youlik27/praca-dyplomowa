@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.ai_dictionary_view, name='ai_query'),
-    path('make/collection', views.make_collection, name='ai_collection'),
+    path('make/collection', views.create_ai_word_list, name='ai_collection'),
 ]

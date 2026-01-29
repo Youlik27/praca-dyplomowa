@@ -1,0 +1,121 @@
+{% extends 'main/layouts/layout.html' %}
+
+{% block content %}
+<section>
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
+
+                    <div class="mb-3">
+                        <div class="d-inline-block p-2 rounded-circle bg-white shadow-sm">
+                            <i class='bx bx-user text-primary display-3'></i>
+                        </div>
+                    </div>
+
+                    <h1 class="banner-heading h1 text-secondary display-4 mb-2 light-300">
+                        {{ user.username }}
+                    </h1>
+
+                    <p class="fs-5 text-muted mb-0">
+                        {{ user.email }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container py-5">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8 mb-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3 text-primary">
+                                    <i class='bx bx-list-ul fs-2'></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted text-uppercase small mb-1">Twoje Listy</h6>
+                                    <span class="h2 fw-bold text-secondary mb-0">{{ lists_count|default:"0" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body p-4 d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 rounded-circle p-3 me-3 text-success">
+                                    <i class='bx bx-book-bookmark fs-2'></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted text-uppercase small mb-1">Zapisane Słowa</h6>
+                                    <span class="h2 fw-bold text-secondary mb-0">{{ words_count|default:"0" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                        <h4 class="h5 text-secondary fw-bold">
+                            <i class='bx bx-id-card me-2 text-primary'></i>Informacje o koncie
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100">
+                                    <label class="d-block text-muted small mb-1 text-uppercase fw-bold">Imię</label>
+                                    <span class="fs-5 text-dark">{{ user.first_name|default:"-" }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 h-100">
+                                    <label class="d-block text-muted small mb-1 text-uppercase fw-bold">Nazwisko</label>
+                                    <span class="fs-5 text-dark">{{ user.last_name|default:"-" }}</span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class='bx bx-calendar fs-4 text-muted me-3'></i>
+                                    <div>
+                                        <label class="d-block text-muted small mb-0">Dołączył(a)</label>
+                                        <span class="text-dark fw-medium">{{ user.date_joined|date:"d E Y" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <i class='bx bx-time-five fs-4 text-muted me-3'></i>
+                                    <div>
+                                        <label class="d-block text-muted small mb-0">Ostatnio widziany</label>
+                                        <span class="text-dark fw-medium">{{ user.last_login|date:"d E Y, H:i"|default:"-" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="container pb-5">
+        <div class="text-center pt-3">
+            <a href="{% url 'word_lists_menu' %}" class="btn btn-link text-secondary text-decoration-none">
+                <i class='bx bx-arrow-back me-1'></i> Wróć do list słów
+            </a>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

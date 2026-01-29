@@ -54,9 +54,8 @@ class UserEnglishVocabulary(models.Model):
     word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE)
     study_status = models.CharField(max_length=20, default='new')
     last_reviewed_at = models.DateTimeField(blank=True, null=True)
-    review_count = models.IntegerField(default=0)
-    correct_attempts = models.IntegerField(default=0)
-    incorrect_attempts = models.IntegerField(default=0)
+    correct_count = models.IntegerField(default=0)
+    wrong_count = models.IntegerField(default=0)
     added_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:
@@ -66,38 +65,30 @@ class UserEnglishVocabulary(models.Model):
         verbose_name_plural = 'User English Vocabularies'
 
 
-class WordGroup(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='word_groups')
-
+class WordList(models.Model):
     name = models.CharField(max_length=150)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='word_lists')
     created_at = models.DateTimeField(auto_now_add=True)
 
     words = models.ManyToManyField(
         EnglishWord,
-        through='WordGroupMembership',
-        related_name='contained_in_groups'
+        through='WordListMembership',
+        related_name='contained_in_lists'
     )
 
     class Meta:
-        db_table = 'word_groups'
-        verbose_name = 'Word Group'
-        verbose_name_plural = 'Word Groups'
+        db_table = 'word_lists'
+        verbose_name = 'Word List'
+        verbose_name_plural = 'Word Lists'
 
     def __str__(self):
-        return f"{self.name} (by {self.owner.username})"
+        return f"{self.name} ({self.owner.username})"
 
-
-class WordGroupMembership(models.Model):
-    word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE)
-    group = models.ForeignKey(WordGroup, on_delete=models.CASCADE)
-
+class WordListMembership(models.Model):
+    word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE, db_column='word_id')
+    word_list = models.ForeignKey(WordList, on_delete=models.CASCADE, db_column='list_id')
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'word_group_membership'
-        verbose_name = 'Word Group Membership'
-        verbose_name_plural = 'Word Group Memberships'
-        unique_together = ('word', 'group')
-
-    def __str__(self):
-        return f"{self.word} in {self.group}"
+        db_table = 'word_lists_membership'
+        unique_together = ('word', 'word_list')

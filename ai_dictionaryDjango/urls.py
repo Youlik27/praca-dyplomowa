@@ -25,4 +25,7 @@ urlpatterns = [
     path('words/', include('words.urls')),
     path('account/', include('accounts.urls')),
     path('assistant/', include('ai.urls')),
+    path('word-list/', include('wordlists.urls')),
+    path('quizzes/', include('quiz.urls')),
+
 ]
