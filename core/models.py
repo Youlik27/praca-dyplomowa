@@ -10,8 +10,6 @@ class PolishWord(models.Model):
         verbose_name = 'Polish Word'
         verbose_name_plural = 'Polish Words'
 
-    def __str__(self):
-        return self.word or "No word"
 
 
 class EnglishWord(models.Model):
@@ -22,8 +20,6 @@ class EnglishWord(models.Model):
         verbose_name = 'English Word'
         verbose_name_plural = 'English Words'
 
-    def __str__(self):
-        return self.word or "No word"
 
 
 class WordDefinition(models.Model):
@@ -81,8 +77,6 @@ class WordList(models.Model):
         verbose_name = 'Word List'
         verbose_name_plural = 'Word Lists'
 
-    def __str__(self):
-        return f"{self.name} ({self.owner.username})"
 
 class WordListMembership(models.Model):
     word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE, db_column='word_id')
@@ -92,3 +86,26 @@ class WordListMembership(models.Model):
     class Meta:
         db_table = 'word_lists_membership'
         unique_together = ('word', 'word_list')
+
+
+class Quiz(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING,db_column='user_id' )
+    mode = models.CharField(max_length=20, blank=True, null=True)
+    total_questions = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'quizzes'
+        verbose_name = 'Quiz'
+        verbose_name_plural = 'Quizzes'
+class QuizQuestion(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.DO_NOTHING,db_column='quiz_id' )
+    word = models.ForeignKey(EnglishWord,on_delete=models.CASCADE, db_column='word_id')
+    source = models.CharField(max_length=20)
+    user_answer = models.CharField(max_length=255, blank=True, null=True)
+    is_correct = models.BooleanField(default=False)
+    answered_at = models.DateTimeField(blank=True, null=True)
+    class Meta:
+        db_table = 'quiz_questions'
+        verbose_name = 'Quiz Question'
+        verbose_name_plural = 'Quiz Questions'

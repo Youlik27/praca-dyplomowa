@@ -1,0 +1,68 @@
+{% extends 'main/layouts/layout.html' %}
+
+{% block content %}
+<section>
+
+<div class="banner-wrapper bg-light">
+    <div class="container py-5">
+        <div class="row py-4">
+            <div class="col-lg-8 col-md-10 m-auto text-center">
+                <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
+                    Quizy
+                </h1>
+                <p class="fs-5 text-muted mb-4">
+                    Wybierz tryb nauki, aby rozpocząć quiz i utrwalić swoją wiedzę.
+                </p>
+
+                {% if user.is_authenticated %}
+                <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+
+
+                    <a href="{% url 'create_quiz_repeat_and_learn' %}"
+                       class="btn btn-primary text-white rounded-pill px-4 py-2 border-0 shadow-sm transition-hover"
+                       style="background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);">
+                        <i class='bx bx-book me-1'></i> Ucz się nowych słów oraz powtarzaj stare
+                    </a>
+
+                </div>
+                {% else %}
+                    <p class="text-muted fst-italic mt-3">Zaloguj się, aby rozpocząć quiz.</p>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container py-5">
+    {% if messages %}
+        <div class="col-lg-10 mb-3 mx-auto">
+            {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-danger bg-danger text-white{% elif message.tags == 'success' %}alert-success bg-success text-white{% else %}alert-info{% endif %} border-0 shadow-sm rounded-3 alert-dismissible fade show" role="alert" style="--bs-bg-opacity: .8;">
+                    <div class="d-flex align-items-center">
+                        {% if message.tags == 'success' %}
+                            <i class='bx bx-check-circle fs-4 me-2'></i>
+                        {% elif message.tags == 'error' %}
+                            <i class='bx bx-error-circle fs-4 me-2'></i>
+                        {% else %}
+                            <i class='bx bx-info-circle fs-4 me-2'></i>
+                        {% endif %}
+                        <span class="fw-normal">{{ message }}</span>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+<div class="container py-5">
+    <div class="text-center border-top pt-5">
+        <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+            <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+        </a>
+    </div>
+</div>
+
+</section>
+{% endblock %}
