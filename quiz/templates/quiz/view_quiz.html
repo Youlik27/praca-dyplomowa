@@ -1,0 +1,85 @@
+{% extends 'main/layouts/layout.html' %}
+
+{% block content %}
+
+<section>
+<div class="banner-wrapper bg-light">
+    <div class="container py-5">
+        <div class="row py-4">
+            <div class="col-lg-8 col-md-10 m-auto text-center">
+                <h2 class="text-secondary mb-3">Przetłumacz słowo:</h2>
+                <h1 class="display-3 fw-bold mb-4">{{ main_word.word }}</h1>
+
+                <div class="row g-3 mb-4">
+                    {% for ans in answers %}
+                    <div class="col-6">
+                        <button type="button"
+                                class="btn btn-outline-primary w-100 py-4 shadow-sm answer-btn"
+                                data-id="{{ ans.id }}"
+                                data-check-url="{% url 'check_answer' quiz.id question_number %}"
+                                style="min-height:120px;">
+                            <span class="fs-4 fw-semibold">{{ ans.polish_word.word }}</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="container py-4">
+    <div class="col-lg-8 mx-auto text-center">
+        <form action="{% url 'change_status' main_word.word %}" method="POST" class="d-flex flex-column flex-md-row justify-content-center gap-3">
+            {% csrf_token %}
+            <select class="form-select form-select-lg" name="status" style="max-width:300px">
+                <option value="NIE_ZNAM">Nie znam</option>
+                <option value="UCZE_SIE">Uczę się</option>
+                <option value="ZNAM">Znam</option>
+            </select>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 btn-lg">Zapisz</button>
+        </form>
+    </div>
+</section>
+
+<div class="text-center my-3">
+    <a href="{% url 'view_quiz' quiz.id question_number|add:1 %}" class="btn btn-secondary">⏭ Następne pytanie</a>
+</div>
+
+</section>
+
+<div class="modal fade" id="resultModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow-lg border-0">
+      <div class="modal-body p-4 p-md-5 text-center">
+        <div id="resultIcon" class="display-1 mb-3">🤔</div>
+        <h2 id="resultText" class="fw-bold mb-3">Sprawdzanie...</h2>
+        <p class="text-muted mb-4">Przejdź do kolejnego słowa, aby utrwalić wiedzę.</p>
+        <div class="d-grid gap-2 mb-4">
+            <a href="{% url 'view_quiz' quiz.id question_number|add:1 %}" class="btn btn-primary btn-lg rounded-pill py-3 shadow-sm">
+                ➡ Następne pytanie
+            </a>
+        </div>
+        <div class="border-top pt-4">
+            <p class="small text-uppercase text-muted fw-bold mb-3">Zmień status tego słowa:</p>
+            <div class="d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-success rounded-pill px-4">
+                    🎓 Znam
+                </button>
+                <button type="button" class="btn btn-outline-warning rounded-pill px-4">
+                    📚 Uczę się
+                </button>
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4">
+                    ❌ Nie znam
+                </button>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
