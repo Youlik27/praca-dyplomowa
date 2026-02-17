@@ -29,20 +29,6 @@
     </div>
 </div>
 
-<section class="container py-4">
-    <div class="col-lg-8 mx-auto text-center">
-        <form action="{% url 'change_status' main_word.word %}" method="POST" class="d-flex flex-column flex-md-row justify-content-center gap-3">
-            {% csrf_token %}
-            <select class="form-select form-select-lg" name="status" style="max-width:300px">
-                <option value="NIE_ZNAM">Nie znam</option>
-                <option value="UCZE_SIE">Uczę się</option>
-                <option value="ZNAM">Znam</option>
-            </select>
-            <button type="submit" class="btn btn-primary rounded-pill px-4 btn-lg">Zapisz</button>
-        </form>
-    </div>
-</section>
-
 <div class="text-center my-3">
     <a href="{% url 'view_quiz' quiz.id question_number|add:1 %}" class="btn btn-secondary">⏭ Następne pytanie</a>
 </div>

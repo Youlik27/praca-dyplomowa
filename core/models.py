@@ -11,9 +11,10 @@ class PolishWord(models.Model):
         verbose_name_plural = 'Polish Words'
 
 
-
 class EnglishWord(models.Model):
     word = models.TextField(unique=True, blank=True, null=True)
+
+    is_top_4000 = models.BooleanField(default=False, verbose_name="Top 4000 Common Word")
 
     class Meta:
         db_table = 'english_words'
