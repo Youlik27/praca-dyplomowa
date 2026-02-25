@@ -33,10 +33,7 @@ def word_list_detail(request, list_id):
             'definitions': definitions
         })
     word_count = count_words_in_list(list_id)
-    return render(request, 'wordlists/manage_word_list.html', {
-        'word_list': word_list, 
-        'words_data': words_data,
-        'word_count': word_count
+    return render(request, 'wordlists/manage_word_list.html', {'word_list': word_list,  'words_data': words_data, 'word_count': word_count
     })
 
 @login_required

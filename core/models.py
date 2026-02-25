@@ -94,6 +94,9 @@ class Quiz(models.Model):
     mode = models.CharField(max_length=20, blank=True, null=True)
     total_questions = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_finished = models.BooleanField(default=False)
+    correct_count = models.IntegerField(default=0)
+    total_time_spent_seconds = models.IntegerField(default=0)
 
     class Meta:
         db_table = 'quizzes'

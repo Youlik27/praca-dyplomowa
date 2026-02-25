@@ -20,7 +20,7 @@
                         <form action="{% url 'change_status' word.word %}" method="POST"
                               class="d-flex flex-column flex-md-row justify-content-center gap-2">
                             {% csrf_token %}
-
+                            <input type="hidden" name="next" value="{{ request.path }}">
                             <select class="form-select form-select-lg" id="wordStatus" name="status"
                             aria-label="Status słowa" style="max-width: 300px;">
                                 <option value="NIE_ZNAM" {% if word_status == 'NIE_ZNAM' %}selected{% endif %}>Nie znam</option>

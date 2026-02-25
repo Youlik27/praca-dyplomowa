@@ -53,6 +53,7 @@ def word_details(request, word_name):
 @login_required(login_url='/account/login/')
 def change_word_status(request, word_name):
     new_status = request.POST.get('status')
+    next_url = request.POST.get('next')
     if request.user.is_authenticated:
         word = EnglishWord.objects.get(word=word_name)
         try:
@@ -67,5 +68,7 @@ def change_word_status(request, word_name):
                 last_reviewed_at=timezone.now(),
                 added_at=timezone.now(),
             )
-            return redirect('details', word_name)
-    return redirect('details', word_name=word_name)
+    if next_url:
+        return redirect(next_url)
+    else:
+        return redirect('details', word_name=word_name)

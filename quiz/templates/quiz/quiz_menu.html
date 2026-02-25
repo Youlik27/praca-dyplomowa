@@ -16,14 +16,11 @@
 
                 {% if user.is_authenticated %}
                 <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
-
-
                     <a href="{% url 'create_quiz_repeat_and_learn' %}"
                        class="btn btn-primary text-white rounded-pill px-4 py-2 border-0 shadow-sm transition-hover"
                        style="background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);">
                         <i class='bx bx-book me-1'></i> Ucz się nowych słów oraz powtarzaj stare
                     </a>
-
                 </div>
                 {% else %}
                     <p class="text-muted fst-italic mt-3">Zaloguj się, aby rozpocząć quiz.</p>
@@ -54,7 +51,62 @@
             {% endfor %}
         </div>
     {% endif %}
-</section>
+
+    {% if user.is_authenticated %}
+    <div class="col-lg-10 mx-auto mt-5">
+        <h3 class="h4 text-secondary mb-4 border-bottom pb-2">
+            <i class='bx bx-history me-2'></i>Twoje ostatnie quizy
+        </h3>
+
+        <div class="d-flex flex-column gap-3">
+            {% for quiz in recent_quizzes %}
+                <div class="card border-0 shadow-sm rounded-3 transition-hover w-100">
+                    <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 p-4">
+
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="bg-light rounded-circle p-3 text-primary d-none d-md-flex align-items-center justify-content-center">
+                                <i class='bx bx-book-open fs-3'></i>
+                            </div>
+                            <div>
+                                <h5 class="card-title text-dark mb-1 fs-5">
+                                    <span class="fw-normal">{{ quiz.get_mode_display|default:"Nauka i powtórka" }}</span>
+                                </h5>
+                                <small class="text-muted">
+                                    <i class='bx bx-time-five me-1'></i>{{ quiz.created_at|date:"d M Y, H:i" }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-md-row align-items-md-center gap-4">
+
+                            <div class="text-md-end">
+                                <span class="badge rounded-pill px-3 py-2 mb-2 d-inline-block" style="background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%); color: white;">
+                                    Wynik: {{ quiz.score }} / {{ quiz.total_questions }} pkt
+                                </span>
+                                <div class="progress" style="height: 6px; width: 120px; margin-left: auto;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ quiz.percentage }}%;" aria-valuenow="{{ quiz.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a href="" class="btn btn-outline-secondary rounded-pill px-4 py-2 w-100">
+                                    <i class='bx bx-search me-1'></i> Szczegóły
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="text-center py-5 bg-light rounded-3 shadow-sm border">
+                    <i class='bx bx-ghost fs-1 text-muted mb-2'></i>
+                    <p class="text-muted mb-0">Nie rozwiązałeś jeszcze żadnego quizu. Czas zacząć naukę!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    </section>
 
 <div class="container py-5">
     <div class="text-center border-top pt-5">

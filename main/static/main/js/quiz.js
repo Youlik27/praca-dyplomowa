@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultModalElement = document.getElementById('resultModal');
     const resultModal = new bootstrap.Modal(resultModalElement);
     const resultText = document.getElementById('resultText');
+    const resultIcon = document.getElementById('resultIcon');
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             const answerId = this.getAttribute('data-id');
@@ -29,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultText.className = "mb-4 fw-bold";
                 if(data.text_class) {
                     resultText.classList.add(data.text_class);
+                }
+                if(data.icon) {
+                    resultIcon.innerText = data.icon;
                 }
                 resultModal.show();
             })
