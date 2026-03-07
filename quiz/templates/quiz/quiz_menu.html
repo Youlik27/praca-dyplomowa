@@ -69,7 +69,11 @@
                             </div>
                             <div>
                                 <h5 class="card-title text-dark mb-1 fs-5">
-                                    <span class="fw-normal">{{ quiz.get_mode_display|default:"Nauka i powtórka" }}</span>
+                                    {% if quiz.mode == 'REPEAT_AND_LEARN' %}
+                                    <span class="fw-normal">Repeat and learn</span>
+                                    {% else %}
+                                    <span class="fw-normal">Mode</span>
+                                    {% endif %}
                                 </h5>
                                 <small class="text-muted">
                                     <i class='bx bx-time-five me-1'></i>{{ quiz.created_at|date:"d M Y, H:i" }}
@@ -81,19 +85,12 @@
 
                             <div class="text-md-end">
                                 <span class="badge rounded-pill px-3 py-2 mb-2 d-inline-block" style="background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%); color: white;">
-                                    Wynik: {{ quiz.score }} / {{ quiz.total_questions }} pkt
+                                    Wynik: {{ quiz.correct_count }} / {{ quiz.total_questions }} pkt
                                 </span>
                                 <div class="progress" style="height: 6px; width: 120px; margin-left: auto;">
                                     <div class="progress-bar bg-success" role="progressbar" style="width: {{ quiz.percentage }}%;" aria-valuenow="{{ quiz.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-
-                            <div>
-                                <a href="" class="btn btn-outline-secondary rounded-pill px-4 py-2 w-100">
-                                    <i class='bx bx-search me-1'></i> Szczegóły
-                                </a>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -108,13 +105,6 @@
     {% endif %}
     </section>
 
-<div class="container py-5">
-    <div class="text-center border-top pt-5">
-        <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
-            <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
-        </a>
-    </div>
-</div>
 
 </section>
 {% endblock %}

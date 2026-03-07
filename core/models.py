@@ -53,6 +53,7 @@ class UserEnglishVocabulary(models.Model):
     last_reviewed_at = models.DateTimeField(blank=True, null=True)
     correct_count = models.IntegerField(default=0)
     wrong_count = models.IntegerField(default=0)
+    success_rate = models.FloatField(default=0.0)
     added_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     class Meta:

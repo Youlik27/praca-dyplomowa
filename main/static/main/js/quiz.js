@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const resultModal = new bootstrap.Modal(resultModalElement);
     const resultText = document.getElementById('resultText');
     const resultIcon = document.getElementById('resultIcon');
+    const newWordBadge = document.getElementById('newWordBadge');
     buttons.forEach(button => {
         button.addEventListener('click', function() {
             const answerId = this.getAttribute('data-id');
             const checkUrl = this.getAttribute('data-check-url');
             const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
             fetch(checkUrl, {
                 method: 'POST',
                 headers: {
@@ -20,12 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network response was not ok');
                 return response.json();
             })
             .then(data => {
+                if (data.is_new) {
+                    newWordBadge.classList.remove('d-none');
+                } else {
+                    newWordBadge.classList.add('d-none');
+                }
                 resultText.innerText = data.message;
                 resultText.className = "mb-4 fw-bold";
                 if(data.text_class) {
@@ -34,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(data.icon) {
                     resultIcon.innerText = data.icon;
                 }
+
                 resultModal.show();
             })
             .catch(error => {
