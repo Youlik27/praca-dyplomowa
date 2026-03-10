@@ -3,65 +3,83 @@
 {% block content %}
 <section>
 
-    <div class="banner-wrapper bg-light">
-        <div class="container py-5">
-            <div class="row py-4">
-                <div class="col-lg-8 col-md-10 m-auto text-center">
+<div class="banner-wrapper bg-light">
+    <div class="container py-5">
+        <div class="row py-4">
+            <div class="col-lg-8 col-md-10 m-auto text-center">
 
-                    <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
-                        {{ word.word }}
-                    </h1>
-                    {% if user.is_authenticated %}
-                    <div class="mt-3">
-                        <p class="fs-5 text-muted mb-4">
-                            Jaki jest status tego słowa?
-                        </p>
+                <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
+                    {{ word.word }}
+                </h1>
 
-                        <form action="{% url 'change_status' word.word %}" method="POST"
-                              class="d-flex flex-column flex-md-row justify-content-center gap-2">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.path }}">
-                            <select class="form-select form-select-lg" id="wordStatus" name="status"
-                            aria-label="Status słowa" style="max-width: 300px;">
-                                <option value="NIE_ZNAM" {% if word_status == 'NIE_ZNAM' %}selected{% endif %}>Nie znam</option>
-                                <option value="UCZE_SIE" {% if word_status == 'UCZE_SIE' %}selected{% endif %}>Uczę się</option>
-                                <option value="ZNAM" {% if word_status == 'ZNAM' %}selected{% endif %}>Znam</option>
-                            </select>
+                {% if user.is_authenticated %}
+                <div class="mt-3">
+                    <p class="fs-5 text-muted mb-4">
+                        Jaki jest status tego słowa?
+                    </p>
 
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 btn-lg">Zapisz</button>
-                        </form>
-                    </div>
-                    {%endif%}
+                    <form action="{% url 'change_status' word.word %}" method="POST"
+                          class="d-flex flex-column flex-md-row justify-content-center gap-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
 
+                        <select class="form-select form-select-lg" id="wordStatus" name="status"
+                        aria-label="Status słowa" style="max-width: 300px;">
+                            <option value="NIE_ZNAM" {% if word_status == 'NIE_ZNAM' %}selected{% endif %}>Nie znam</option>
+                            <option value="UCZE_SIE" {% if word_status == 'UCZE_SIE' %}selected{% endif %}>Uczę się</option>
+                            <option value="ZNAM" {% if word_status == 'ZNAM' %}selected{% endif %}>Znam</option>
+                        </select>
+
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 btn-lg">
+                            Zapisz
+                        </button>
+                    </form>
                 </div>
+                {% endif %}
+
             </div>
         </div>
     </div>
-
-    <section class="container py-5">
-        <div class="row">
-            <h2 class="h2 text-center col-12 pb-4 semi-bold-600">Tłumaczenia</h2>
-        </div>
-        <div class="d-flex justify-content-center flex-wrap gap-3">
-            {% for pos, def_list in definitions.items %}
-                {% for definition in def_list %}
-                    <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
-                        {{ definition.polish_word.word }}
-                        <small class="ms-1 fst-italic">({{ pos }})</small>
-                    </span>
-                {% endfor %}
-            {% endfor %}
-        </div>
-    </section>
+</div>
 
 
-    <div class="container py-5">
-        <div class="text-center border-top pt-5">
-            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
-                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
-            </a>
-        </div>
+<section class="container py-5">
+
+    <div class="row">
+        <h2 class="h2 text-center col-12 pb-5 semi-bold-600">Tłumaczenia</h2>
     </div>
+
+    {% for pos, def_list in definitions.items %}
+    <div class="text-center my-4">
+        <span class="badge bg-light text-primary border px-4 py-2 fs-5 fw-bold rounded-pill">
+            {% if pos == '' %}
+    <span>Inne</span>
+{% else %}
+    <span>{{ pos }}</span>
+{% endif %}
+        </span>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap gap-3 mb-5">
+        {% for definition in def_list %}
+            <span class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">
+                {{ definition.polish_word.word }}
+            </span>
+        {% endfor %}
+    </div>
+
+    {% endfor %}
+
+</section>
+
+
+<div class="container py-5">
+    <div class="text-center border-top pt-5">
+        <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+            <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+        </a>
+    </div>
+</div>
 
 </section>
 {% endblock %}

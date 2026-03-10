@@ -43,6 +43,8 @@ def get_user_word_status(user, word):
         return None
 def word_details(request, word_name):
     word = get_object_or_404(EnglishWord, word=word_name)
+    if not word:
+        return render(request, 'main/not_found.html', {'searched_word': word_name})
     definitions = get_top_definitions_by_pos(word)
     word_status = get_user_word_status(request.user, word)
     return render(request, 'words/wordDetails.html', {
