@@ -8,6 +8,7 @@ urlpatterns = [
     path('<int:list_id>/delete', views.delete_word_list, name='delete_word_list'),
     path('<int:list_id>/word/add', views.add_word_to_list, name='add_word_to_list'),
     path('<int:list_id>/word/<int:word_id>/remove', views.remove_word_from_list, name='remove_word_from_list'),
-    path('<int:list_id>/name/update', views.update_word_list_name, name='update_word_list_name'),
+    path('<int:list_id>/update/name', views.update_word_list_name, name='update_word_list_name'),
+    path('<int:list_id>/update/icon', views.update_word_list_icon, name='update_word_list_icon'),
 
 ]

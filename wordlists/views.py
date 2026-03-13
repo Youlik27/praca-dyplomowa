@@ -79,3 +79,31 @@ def update_word_list_name(request, list_id):
     word_list.save()
     return redirect('word_list_detail', list_id=list_id)
 
+
+def update_word_list_icon(request, list_id):
+    word_list = get_object_or_404(WordList, id=list_id, owner=request.user)
+
+    if request.method == 'POST':
+        new_icon = request.POST.get('icon')
+
+        allowed_icons = [
+            'bx-list-ul',
+            'bx-book',
+            'bx-book-open',
+            'bx-book-heart',
+            'bx-brain',
+            'bx-star',
+            'bx-globe',
+            'bx-collection',
+            'bx-folder',
+            'bx-note',
+        ]
+
+        if new_icon in allowed_icons:
+            word_list.icon = new_icon
+            word_list.save()
+            messages.success(request, 'Ikona listy została zaktualizowana.')
+        else:
+            messages.error(request, 'Wybrano nieprawidłową ikonę.')
+
+    return redirect('word_list_detail', list_id=word_list.id)

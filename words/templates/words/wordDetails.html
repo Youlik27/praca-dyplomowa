@@ -23,8 +23,10 @@
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ request.path }}">
 
-                        <select class="form-select form-select-lg" id="wordStatus" name="status"
-                        aria-label="Status słowa" style="max-width: 300px;">
+                        <select class="form-select form-select-lg" id="wordStatus" name="status" required aria-label="Status słowa"  style="max-width: 300px;">
+                            <option value="" disabled {% if not word_status %}selected{% endif %}>
+                                Wybierz status
+                            </option>
                             <option value="NIE_ZNAM" {% if word_status == 'NIE_ZNAM' %}selected{% endif %}>Nie znam</option>
                             <option value="UCZE_SIE" {% if word_status == 'UCZE_SIE' %}selected{% endif %}>Uczę się</option>
                             <option value="ZNAM" {% if word_status == 'ZNAM' %}selected{% endif %}>Znam</option>

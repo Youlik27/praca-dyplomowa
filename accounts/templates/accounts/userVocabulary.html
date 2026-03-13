@@ -1,99 +1,207 @@
 {% extends 'main/layouts/layout.html' %}
 
 {% block content %}
-<div class="container mt-5">
+<section>
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-light">
-            <h1 class="mb-0 fs-4">Twoje słowa</h1>
+                    <div class="mb-3">
+                        <i class='bx bx-book-heart display-2 text-primary'></i>
+                    </div>
+
+                    <h1 class="banner-heading h1 text-secondary display-4 mb-3 light-300">
+                        Twoje słownictwo
+                    </h1>
+
+                    <p class="fs-5 text-muted mb-0">
+                        Zarządzaj swoimi słowami według poziomu znajomości.
+                        Sprawdzaj, czego jeszcze nie znasz, czego się uczysz i co już opanowałeś.
+                    </p>
+
+                </div>
+            </div>
         </div>
-
-        <div class="card-body p-4">
-
-            <ul class="nav nav-tabs mb-4" id="wordTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="nieznam-tab" data-bs-toggle="tab"
-                            data-bs-target="#nieZnam" type="button" role="tab"
-                            aria-controls="nieZnam" aria-selected="true">
-                        Nie znam
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="ucze-tab" data-bs-toggle="tab"
-                            data-bs-target="#ucze" type="button" role="tab"
-                            aria-controls="ucze" aria-selected="false">
-                        Uczę się
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="znam-tab" data-bs-toggle="tab"
-                            data-bs-target="#znam" type="button" role="tab"
-                            aria-controls="znam" aria-selected="false">
-                        Znam
-                    </button>
-                </li>
-            </ul>
-
-            <div class="tab-content" id="wordTabsContent">
-
-                <div class="tab-pane fade show active" id="nieZnam" role="tabpanel" aria-labelledby="nieznam-tab">
-                    {% if nieZnamWords %}
-                        <ul class="list-group">
-                            {% for entry in nieZnamWords %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ entry.word.word }}</span>
-                                    <a href="{% url 'details' entry.word.word %}" class="btn btn-outline-primary btn-sm">
-                                        Zobacz
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
-                    {% endif %}
-                </div>
-
-                <div class="tab-pane fade" id="ucze" role="tabpanel" aria-labelledby="ucze-tab">
-                    {% if uczeSieWords %}
-                        <ul class="list-group">
-                            {% for entry in uczeSieWords %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ entry.word.word }}</span>
-                                    <a href="{% url 'details' entry.word.word %}" class="btn btn-outline-primary btn-sm">
-                                        Zobacz
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
-                    {% endif %}
-                </div>
-
-                <div class="tab-pane fade" id="znam" role="tabpanel" aria-labelledby="znam-tab">
-                    {% if znamWords %}
-                        <ul class="list-group">
-                            {% for entry in znamWords %}
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{ entry.word.word }}</span>
-                                    <a href="{% url 'details' entry.word.word %}" class="btn btn-outline-primary btn-sm">
-                                        Zobacz
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <div class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
-                    {% endif %}
-                </div>
-
-
-            </div> </div> <div class="card-footer text-center bg-light border-0 pt-3 pb-3">
-            <a href="/" class="btn btn-secondary">
-                <i class="bi bi-arrow-left me-1"></i> Powrót do strony głównej
-            </a>
-        </div>
-
     </div>
-</div>
+
+    <section class="container py-5">
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body p-4">
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                            <h2 class="h3 semi-bold-600 text-secondary mb-0">
+                                Kategorie słów
+                            </h2>
+
+                        </div>
+
+                        <ul class="nav nav-pills gap-2 mb-4 flex-wrap" id="wordTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active rounded-pill px-4"
+                                        id="nieznam-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#nieZnam"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="nieZnam"
+                                        aria-selected="true">
+                                    <i class='bx bx-x-circle me-1'></i> Nie znam
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link rounded-pill px-4"
+                                        id="ucze-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#ucze"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="ucze"
+                                        aria-selected="false">
+                                    <i class='bx bx-book-open'></i> Uczę się
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link rounded-pill px-4"
+                                        id="znam-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#znam"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="znam"
+                                        aria-selected="false">
+                                    <i class='bx bx-check-circle me-1'></i> Znam
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="wordTabsContent">
+
+                            <div class="tab-pane fade show active" id="nieZnam" role="tabpanel"
+                                 aria-labelledby="nieznam-tab">
+                                <div class="card border-0 bg-light-subtle">
+                                    <div class="card-body p-0">
+                                        {% if nieZnamWords %}
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle mb-0">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th class="ps-4 py-3 text-muted">Słowo</th>
+                                                    <th class="text-end pe-4 py-3 text-muted">Akcja</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for entry in nieZnamWords %}
+                                                <tr>
+                                                    <td class="ps-4 fw-bold text-dark">
+                                                        {{ entry.word.word }}
+                                                    </td>
+                                                    <td class="text-end pe-4">
+                                                        <a href="{% url 'details' entry.word.word %}"
+                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                            <i class='bx bx-search-alt me-1'></i> Zobacz
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-center py-5 text-muted">
+                                            <i class='bx bx-ghost fs-1 mb-2'></i>
+                                            <p class="mb-0">Brak słów w kategorii „Nie znam”.</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="ucze" role="tabpanel" aria-labelledby="ucze-tab">
+                                <div class="card border-0 bg-light-subtle">
+                                    <div class="card-body p-0">
+                                        {% if uczeSieWords %}
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle mb-0">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th class="ps-4 py-3 text-muted">Słowo</th>
+                                                    <th class="text-end pe-4 py-3 text-muted">Akcja</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for entry in uczeSieWords %}
+                                                <tr>
+                                                    <td class="ps-4 fw-bold text-dark">
+                                                        {{ entry.word.word }}
+                                                    </td>
+                                                    <td class="text-end pe-4">
+                                                        <a href="{% url 'details' entry.word.word %}"
+                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                            <i class='bx bx-search-alt me-1'></i> Zobacz
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-center py-5 text-muted">
+                                            <i class='bx bx-ghost fs-1 mb-2'></i>
+                                            <p class="mb-0">Brak słów w kategorii „Uczę się”.</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="znam" role="tabpanel" aria-labelledby="znam-tab">
+                                <div class="card border-0 bg-light-subtle">
+                                    <div class="card-body p-0">
+                                        {% if znamWords %}
+                                        <div class="table-responsive">
+                                            <table class="table table-hover align-middle mb-0">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th class="ps-4 py-3 text-muted">Słowo</th>
+                                                    <th class="text-end pe-4 py-3 text-muted">Akcja</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for entry in znamWords %}
+                                                <tr>
+                                                    <td class="ps-4 fw-bold text-dark">
+                                                        {{ entry.word.word }}
+                                                    </td>
+                                                    <td class="text-end pe-4">
+                                                        <a href="{% url 'details' entry.word.word %}"
+                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                            <i class='bx bx-search-alt me-1'></i> Zobacz
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% else %}
+                                        <div class="text-center py-5 text-muted">
+                                            <i class='bx bx-ghost fs-1 mb-2'></i>
+                                            <p class="mb-0">Brak słów w kategorii „Znam”.</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
 {% endblock %}

@@ -67,6 +67,7 @@ class WordList(models.Model):
     name = models.CharField(max_length=150)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='word_lists')
     created_at = models.DateTimeField(auto_now_add=True)
+    icon = models.CharField(max_length=50, default='bx-list-ul')
 
     words = models.ManyToManyField(
         EnglishWord,
