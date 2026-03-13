@@ -13,7 +13,8 @@ def view_word_lists(request):
 def create_word_list(request):
     word_list = WordList.objects.create(
         name='List ' + timezone.now().strftime("%y%m%d%H%M%S"),
-        owner=request.user
+        owner=request.user,
+        icon = 'bx-list-ul'
     )
     return redirect('word_list_detail', list_id=word_list.id)
 

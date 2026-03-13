@@ -139,7 +139,8 @@ def create_ai_word_list(request):
 
                     word_list = WordList.objects.create(
                         name=word_list_name,
-                        owner=request.user
+                        owner=request.user,
+                        icon='bx-list-ul',
                     )
 
                     added_count = 0
