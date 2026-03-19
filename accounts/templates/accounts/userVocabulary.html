@@ -6,20 +6,16 @@
         <div class="container py-5">
             <div class="row py-4">
                 <div class="col-lg-8 col-md-10 m-auto text-center">
-
                     <div class="mb-3">
                         <i class='bx bx-book-heart display-2 text-primary'></i>
                     </div>
-
                     <h1 class="banner-heading h1 text-secondary display-4 mb-3 light-300">
                         Twoje słownictwo
                     </h1>
-
                     <p class="fs-5 text-muted mb-0">
                         Zarządzaj swoimi słowami według poziomu znajomości.
                         Sprawdzaj, czego jeszcze nie znasz, czego się uczysz i co już opanowałeś.
                     </p>
-
                 </div>
             </div>
         </div>
@@ -27,53 +23,28 @@
 
     <section class="container py-5">
         <div class="row justify-content-center">
-
             <div class="col-lg-10">
-
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body p-4">
-
                         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
                             <h2 class="h3 semi-bold-600 text-secondary mb-0">
                                 Kategorie słów
                             </h2>
-
                         </div>
 
                         <ul class="nav nav-pills gap-2 mb-4 flex-wrap" id="wordTabs" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link active rounded-pill px-4"
-                                        id="nieznam-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#nieZnam"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="nieZnam"
-                                        aria-selected="true">
+                                <button class="nav-link active rounded-pill px-4" id="nieznam-tab" data-bs-toggle="tab" data-bs-target="#nieZnam" type="button" role="tab" aria-controls="nieZnam" aria-selected="true">
                                     <i class='bx bx-x-circle me-1'></i> Nie znam
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link rounded-pill px-4"
-                                        id="ucze-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#ucze"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="ucze"
-                                        aria-selected="false">
+                                <button class="nav-link rounded-pill px-4" id="ucze-tab" data-bs-toggle="tab" data-bs-target="#ucze" type="button" role="tab" aria-controls="ucze" aria-selected="false">
                                     <i class='bx bx-book-open'></i> Uczę się
                                 </button>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link rounded-pill px-4"
-                                        id="znam-tab"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#znam"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="znam"
-                                        aria-selected="false">
+                                <button class="nav-link rounded-pill px-4" id="znam-tab" data-bs-toggle="tab" data-bs-target="#znam" type="button" role="tab" aria-controls="znam" aria-selected="false">
                                     <i class='bx bx-check-circle me-1'></i> Znam
                                 </button>
                             </li>
@@ -81,8 +52,7 @@
 
                         <div class="tab-content" id="wordTabsContent">
 
-                            <div class="tab-pane fade show active" id="nieZnam" role="tabpanel"
-                                 aria-labelledby="nieznam-tab">
+                            <div class="tab-pane fade show active" id="nieZnam" role="tabpanel" aria-labelledby="nieznam-tab">
                                 <div class="card border-0 bg-light-subtle">
                                     <div class="card-body p-0">
                                         {% if nieZnamWords %}
@@ -97,12 +67,9 @@
                                                 <tbody>
                                                 {% for entry in nieZnamWords %}
                                                 <tr>
-                                                    <td class="ps-4 fw-bold text-dark">
-                                                        {{ entry.word.word }}
-                                                    </td>
+                                                    <td class="ps-4 fw-bold text-dark">{{ entry.word.word }}</td>
                                                     <td class="text-end pe-4">
-                                                        <a href="{% url 'details' entry.word.word %}"
-                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                        <a href="{% url 'details' entry.word.word %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                                             <i class='bx bx-search-alt me-1'></i> Zobacz
                                                         </a>
                                                     </td>
@@ -111,6 +78,27 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {% if nieZnamWords.paginator.num_pages > 1 %}
+                                        <div class="d-flex justify-content-center mt-4 mb-3">
+                                            <ul class="pagination pagination-sm mb-0">
+                                                {% if nieZnamWords.has_previous %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ nieZnamWords.previous_page_number }}&uczeSieWordsPage_number={{ request.GET.uczeSieWordsPage_number|default:1 }}&znamWordsPage_number={{ request.GET.znamWordsPage_number|default:1 }}">&laquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                                {% endif %}
+
+                                                <li class="page-item active"><span class="page-link">{{ nieZnamWords.number }} z {{ nieZnamWords.paginator.num_pages }}</span></li>
+
+                                                {% if nieZnamWords.has_next %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ nieZnamWords.next_page_number }}&uczeSieWordsPage_number={{ request.GET.uczeSieWordsPage_number|default:1 }}&znamWordsPage_number={{ request.GET.znamWordsPage_number|default:1 }}">&raquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
                                         {% else %}
                                         <div class="text-center py-5 text-muted">
                                             <i class='bx bx-ghost fs-1 mb-2'></i>
@@ -120,6 +108,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="ucze" role="tabpanel" aria-labelledby="ucze-tab">
                                 <div class="card border-0 bg-light-subtle">
                                     <div class="card-body p-0">
@@ -135,12 +124,9 @@
                                                 <tbody>
                                                 {% for entry in uczeSieWords %}
                                                 <tr>
-                                                    <td class="ps-4 fw-bold text-dark">
-                                                        {{ entry.word.word }}
-                                                    </td>
+                                                    <td class="ps-4 fw-bold text-dark">{{ entry.word.word }}</td>
                                                     <td class="text-end pe-4">
-                                                        <a href="{% url 'details' entry.word.word %}"
-                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                        <a href="{% url 'details' entry.word.word %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                                             <i class='bx bx-search-alt me-1'></i> Zobacz
                                                         </a>
                                                     </td>
@@ -149,6 +135,27 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {% if uczeSieWords.paginator.num_pages > 1 %}
+                                        <div class="d-flex justify-content-center mt-4 mb-3">
+                                            <ul class="pagination pagination-sm mb-0">
+                                                {% if uczeSieWords.has_previous %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ request.GET.nieZnamWordsPage_number|default:1 }}&uczeSieWordsPage_number={{ uczeSieWords.previous_page_number }}&znamWordsPage_number={{ request.GET.znamWordsPage_number|default:1 }}">&laquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                                {% endif %}
+
+                                                <li class="page-item active"><span class="page-link">{{ uczeSieWords.number }} z {{ uczeSieWords.paginator.num_pages }}</span></li>
+
+                                                {% if uczeSieWords.has_next %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ request.GET.nieZnamWordsPage_number|default:1 }}&uczeSieWordsPage_number={{ uczeSieWords.next_page_number }}&znamWordsPage_number={{ request.GET.znamWordsPage_number|default:1 }}">&raquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
                                         {% else %}
                                         <div class="text-center py-5 text-muted">
                                             <i class='bx bx-ghost fs-1 mb-2'></i>
@@ -158,6 +165,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade" id="znam" role="tabpanel" aria-labelledby="znam-tab">
                                 <div class="card border-0 bg-light-subtle">
                                     <div class="card-body p-0">
@@ -173,12 +181,9 @@
                                                 <tbody>
                                                 {% for entry in znamWords %}
                                                 <tr>
-                                                    <td class="ps-4 fw-bold text-dark">
-                                                        {{ entry.word.word }}
-                                                    </td>
+                                                    <td class="ps-4 fw-bold text-dark">{{ entry.word.word }}</td>
                                                     <td class="text-end pe-4">
-                                                        <a href="{% url 'details' entry.word.word %}"
-                                                           class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                        <a href="{% url 'details' entry.word.word %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                                             <i class='bx bx-search-alt me-1'></i> Zobacz
                                                         </a>
                                                     </td>
@@ -187,6 +192,27 @@
                                                 </tbody>
                                             </table>
                                         </div>
+
+                                        {% if znamWords.paginator.num_pages > 1 %}
+                                        <div class="d-flex justify-content-center mt-4 mb-3">
+                                            <ul class="pagination pagination-sm mb-0">
+                                                {% if znamWords.has_previous %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ request.GET.nieZnamWordsPage_number|default:1 }}&uczeSieWordsPage_number={{ request.GET.uczeSieWordsPage_number|default:1 }}&znamWordsPage_number={{ znamWords.previous_page_number }}">&laquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                                {% endif %}
+
+                                                <li class="page-item active"><span class="page-link">{{ znamWords.number }} z {{ znamWords.paginator.num_pages }}</span></li>
+
+                                                {% if znamWords.has_next %}
+                                                    <li class="page-item"><a class="page-link" href="?nieZnamWordsPage_number={{ request.GET.nieZnamWordsPage_number|default:1 }}&uczeSieWordsPage_number={{ request.GET.uczeSieWordsPage_number|default:1 }}&znamWordsPage_number={{ znamWords.next_page_number }}">&raquo;</a></li>
+                                                {% else %}
+                                                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+
                                         {% else %}
                                         <div class="text-center py-5 text-muted">
                                             <i class='bx bx-ghost fs-1 mb-2'></i>

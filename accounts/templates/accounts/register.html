@@ -1,15 +1,23 @@
 {%extends 'main/layouts/layout.html' %}
 {%block content%}
 <section>
-    <div class="container d-flex justify-content-center mt-5">
+    <div class="container d-flex justify-content-center mt-5 mb-5">
 
         <form class="w-50 mx-auto" action="{% url 'register' %}" method="post">
             {%csrf_token%}
-            {%if form.errors%}
-            <div class="alert alert-danger">
-                {{form.errors}}
+            {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    <div class="mb-1">{{ error }}</div>
+                {% endfor %}
+
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="mb-1"><strong>{{ field.label }}:</strong> {{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
             </div>
-            {%endif%}
+            {% endif %}
             <h1 class="h3 mb-3 fw-normal text-center">Zarejestruj się</h1>
 
             <div class="form-floating mb-3">

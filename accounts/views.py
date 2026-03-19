@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from .forms import LoginForm, RegisterForm
@@ -37,12 +38,24 @@ def register(request):
 @login_required(login_url='login')
 def vocabulary_view(request):
     nieZnamWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'NIE_ZNAM')
+    nieZnamWordsPagin = Paginator(nieZnamWords, 10)
+    nieZnamWordsPage_number = request.GET.get('nieZnamWordsPage_number')
+    nieZnamWords_page = nieZnamWordsPagin.get_page(nieZnamWordsPage_number)
+
     uczeSieWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'UCZE_SIE')
+    uczeSieWordsPagin = Paginator(uczeSieWords, 10)
+    uczeSieWordsPage_number = request.GET.get('uczeSieWordsPage_number')
+    uczeSieWords_page = uczeSieWordsPagin.get_page(uczeSieWordsPage_number)
+
     znamWords = UserEnglishVocabulary.objects.filter(user=request.user, study_status = 'ZNAM')
+    znamWordsPagin = Paginator(znamWords, 10)
+    znamWordsPage_number = request.GET.get('znamWordsPage_number')
+    znamWords_page = znamWordsPagin.get_page(znamWordsPage_number)
+
     return render(request, 'accounts/userVocabulary.html', {
-        'nieZnamWords': nieZnamWords,
-        'uczeSieWords': uczeSieWords,
-        'znamWords': znamWords,
+        'nieZnamWords': nieZnamWords_page,
+        'uczeSieWords': uczeSieWords_page,
+        'znamWords': znamWords_page,
     })
 def last_saved_word(request):
     last_word = UserEnglishVocabulary.objects.filter(user=request.user).order_by('-added_at').first()

@@ -37,7 +37,7 @@ class WordDefinition(models.Model):
         verbose_name_plural = 'Word Definitions'
 
 class SearchHistory(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='searches', blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='searches', blank=True, null=True)
     query = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
@@ -47,7 +47,7 @@ class SearchHistory(models.Model):
         verbose_name_plural = 'Search Histories'
 
 class UserEnglishVocabulary(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE)
     study_status = models.CharField(max_length=20, default='new')
     last_reviewed_at = models.DateTimeField(blank=True, null=True)
@@ -92,7 +92,7 @@ class WordListMembership(models.Model):
 
 
 class Quiz(models.Model):
-    user = models.ForeignKey(User, on_delete=models.DO_NOTHING,db_column='user_id' )
+    user = models.ForeignKey(User, on_delete=models.CASCADE,db_column='user_id' )
     mode = models.CharField(max_length=20, blank=True, null=True)
     total_questions = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -105,7 +105,7 @@ class Quiz(models.Model):
         verbose_name = 'Quiz'
         verbose_name_plural = 'Quizzes'
 class QuizQuestion(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete=models.DO_NOTHING,db_column='quiz_id' )
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,db_column='quiz_id' )
     word = models.ForeignKey(EnglishWord,on_delete=models.CASCADE, db_column='word_id')
     source = models.CharField(max_length=20)
     user_answer = models.CharField(max_length=255, blank=True, null=True)
@@ -115,3 +115,13 @@ class QuizQuestion(models.Model):
         db_table = 'quiz_questions'
         verbose_name = 'Quiz Question'
         verbose_name_plural = 'Quiz Questions'
+class AssistantResponse(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    text = models.TextField(blank=True, null=True)
+    user_input = models.TextField(blank=True, null=True)
+    class Meta:
+        db_table = 'assistant_responses'
+        verbose_name = 'Assistant Response'
+        verbose_name_plural = 'Assistant Responses'

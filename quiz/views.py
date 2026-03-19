@@ -2,6 +2,7 @@ import datetime
 import json
 import random
 from core.models import EnglishWord, UserEnglishVocabulary, Quiz, QuizQuestion, WordDefinition
+from django.db import transaction
 from django.db.models import F, Case, When, Value, IntegerField
 from django.http import JsonResponse
 
@@ -60,12 +61,6 @@ def view_quiz(request, quiz_id, question_number=0):
         'total_questions': len(quiz_questions),
     }
     return render(request, 'quiz/view_quiz.html', context)
-
-
-import random
-from django.db import transaction  # Для надежности
-
-
 def create_quiz_repeat_and_learn(request):
     QUIZ_SIZE = 10
     REVIEW_COUNT = 7
@@ -156,7 +151,10 @@ def check_answer(request, quiz_id, question_number):
                 vocab_word.wrong_count += 1
             vocab_word.last_reviewed_at = timezone.now()
             total = vocab_word.correct_count + vocab_word.wrong_count
-            vocab_word.success_rate = (vocab_word.correct_count / total) * 100
+            if total < 3:
+                vocab_word.success_rate = 0
+            else:
+                vocab_word.success_rate = (vocab_word.correct_count / total) * 100
             vocab_word.save()
         else:
             is_new = True

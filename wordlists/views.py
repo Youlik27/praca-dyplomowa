@@ -45,7 +45,7 @@ def delete_word_list(request, list_id):
         messages.success(request, f'Lista "{word_list.name}" została pomyślnie usunięta.')
         return redirect('word_lists_menu')
     else:
-        messages.error(request, 'Coś poszło nie так.')
+        messages.error(request, 'Coś poszło nie tak.')
         return redirect('word_list_detail', list_id=list_id)
 
 @login_required
