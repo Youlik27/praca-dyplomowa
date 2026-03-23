@@ -1,9 +1,7 @@
-import datetime
 import json
 import random
 from core.models import EnglishWord, UserEnglishVocabulary, Quiz, QuizQuestion, WordDefinition
 from django.db import transaction
-from django.db.models import F, Case, When, Value, IntegerField
 from django.http import JsonResponse
 
 from django.shortcuts import render, redirect, get_object_or_404

@@ -9,7 +9,8 @@ class PolishWord(models.Model):
         db_table = 'polish_words'
         verbose_name = 'Polish Word'
         verbose_name_plural = 'Polish Words'
-
+    def __str__(self):
+        return self.word or f"PolishWord #{self.pk}"
 
 class EnglishWord(models.Model):
     word = models.TextField(unique=True, blank=True, null=True)
@@ -20,7 +21,8 @@ class EnglishWord(models.Model):
         db_table = 'english_words'
         verbose_name = 'English Word'
         verbose_name_plural = 'English Words'
-
+    def __str__(self):
+        return self.word or f"EnglishWord #{self.pk}"
 
 
 class WordDefinition(models.Model):
@@ -36,6 +38,8 @@ class WordDefinition(models.Model):
         verbose_name = 'Word Definition'
         verbose_name_plural = 'Word Definitions'
 
+    def __str__(self):
+        return f"{self.polish_word} -> {self.english_word}"
 class SearchHistory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='searches', blank=True, null=True)
     query = models.CharField(max_length=255)
@@ -80,6 +84,8 @@ class WordList(models.Model):
         verbose_name = 'Word List'
         verbose_name_plural = 'Word Lists'
 
+    def __str__(self):
+        return self.name
 
 class WordListMembership(models.Model):
     word = models.ForeignKey(EnglishWord, on_delete=models.CASCADE, db_column='word_id')
@@ -90,6 +96,8 @@ class WordListMembership(models.Model):
         db_table = 'word_lists_membership'
         unique_together = ('word', 'word_list')
 
+    def __str__(self):
+        return f"{self.word} in {self.word_list}"
 
 class Quiz(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,db_column='user_id' )
@@ -104,6 +112,9 @@ class Quiz(models.Model):
         db_table = 'quizzes'
         verbose_name = 'Quiz'
         verbose_name_plural = 'Quizzes'
+
+    def __str__(self):
+        return f"Quiz #{self.pk} ({self.user})"
 class QuizQuestion(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,db_column='quiz_id' )
     word = models.ForeignKey(EnglishWord,on_delete=models.CASCADE, db_column='word_id')
@@ -115,6 +126,9 @@ class QuizQuestion(models.Model):
         db_table = 'quiz_questions'
         verbose_name = 'Quiz Question'
         verbose_name_plural = 'Quiz Questions'
+
+    def __str__(self):
+        return f"{self.word} in Quiz #{self.quiz_id}"
 class AssistantResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, blank=True, null=True)
@@ -125,3 +139,6 @@ class AssistantResponse(models.Model):
         db_table = 'assistant_responses'
         verbose_name = 'Assistant Response'
         verbose_name_plural = 'Assistant Responses'
+
+    def __str__(self):
+        return f"{self.user} - {self.created_at}"

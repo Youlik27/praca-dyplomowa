@@ -12,11 +12,13 @@ from core.models import UserEnglishVocabulary, Quiz
 
 def login(request):
     form = LoginForm(request, data=request.POST or None)
-
     if request.method == 'POST':
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
+            remember_me = request.POST.get('remember_me')
+            if not remember_me:
+                request.session.set_expiry(0)
             return redirect('home')
 
 
