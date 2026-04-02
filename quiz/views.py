@@ -65,7 +65,7 @@ def create_quiz_repeat_and_learn(request):
     NEW_COUNT = 3
     user = request.user
 
-    user_vocab = UserEnglishVocabulary.objects.filter(user=user)
+    user_vocab = UserEnglishVocabulary.objects.filter(user=user).exclude(is_learned=True)
     bucket_a = list(user_vocab.filter(success_rate__lt=40).order_by('?')[:4].values_list('word_id', flat=True))
     bucket_b = list(user_vocab.filter(success_rate__gte=40, success_rate__lt=80).order_by('?')[:2].values_list('word_id',flat=True))
     bucket_c = list(user_vocab.filter(success_rate__gte=80).order_by('?')[:1].values_list('word_id', flat=True))

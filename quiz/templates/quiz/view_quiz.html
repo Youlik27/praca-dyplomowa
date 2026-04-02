@@ -85,7 +85,19 @@
                         </div>
                     </form>
                 </div>
+                <div class="border-top mt-4 pt-4">
+                    <p class="small text-muted mb-3">Jeśli jesteś pewien, że dobrze znasz to słowo, kliknij poniżej, aby
+                        nie pojawiało się więcej w quizach:</p>
 
+                    <form action="{%url 'mark_as_learned' main_word.word%}" method="POST">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        {% csrf_token %}
+                        <button type="submit" name="is_learned" value="true"
+                                class="btn btn-success w-100 rounded-pill py-2 shadow-sm d-flex justify-content-center align-items-center gap-2">
+                            <span>✅</span> Nie pokazuj więcej w quizach
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

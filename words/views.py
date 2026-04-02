@@ -74,3 +74,23 @@ def change_word_status(request, word_name):
         return redirect(next_url)
     else:
         return redirect('details', word_name=word_name)
+
+
+def mark_as_learned(request, word_name):
+    next_url = request.POST.get('next')
+    if request.method == 'POST' and request.user.is_authenticated:
+        word = get_object_or_404(EnglishWord, word=word_name)
+        word_in_vocabulary, created = UserEnglishVocabulary.objects.get_or_create(
+            user=request.user,
+            word=word,
+            defaults={
+                'study_status': 'ZNAM',
+                'added_at': timezone.now(),
+                'last_reviewed_at': timezone.now(),
+            }
+        )
+        word_in_vocabulary.is_learned = True
+        word_in_vocabulary.study_status = 'ZNAM'
+        word_in_vocabulary.save()
+        return redirect(next_url)
+    return redirect(next_url)

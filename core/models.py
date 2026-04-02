@@ -59,6 +59,7 @@ class UserEnglishVocabulary(models.Model):
     wrong_count = models.IntegerField(default=0)
     success_rate = models.FloatField(default=0.0)
     added_at = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    is_learned = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'user_english_vocabulary'

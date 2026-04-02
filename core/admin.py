@@ -48,7 +48,8 @@ class UserEnglishVocabularyAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'user', 'word', 'study_status',
         'correct_count', 'wrong_count',
-        'success_rate', 'last_reviewed_at', 'added_at'
+        'success_rate', 'last_reviewed_at', 'added_at',
+        'is_learned'
     )
     search_fields = ('user__username', 'word__word', 'study_status')
     list_filter = ('study_status', 'added_at', 'last_reviewed_at')
