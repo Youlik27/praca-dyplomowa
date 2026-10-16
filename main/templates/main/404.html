@@ -1,0 +1,19 @@
+{% extends 'main/layouts/layout.html' %}
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <h1 class="display-1 fw-bold text-muted mb-0 text-black">404</h1>
+            <h2 class="mb-4">Ups! 😕</h2>
+            <p class="lead text-muted mb-5">
+                Wygląda na to, że strona, której szukasz, nie istnieje lub została przeniesiona.
+            </p>
+            <a href="{% url 'home' %}" class="btn btn-lg text-white">
+                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">
+                    Wróć do strony głównej
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

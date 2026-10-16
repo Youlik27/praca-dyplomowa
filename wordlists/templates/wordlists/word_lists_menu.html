@@ -93,14 +93,51 @@
             {% endfor %}
         </div>
     </section>
-
-    <div class="container py-5">
-        <div class="text-center border-top pt-5">
-            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
-                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
-            </a>
-        </div>
-    </div>
-
 </section>
+{% if word_lists.has_other_pages %}
+<nav aria-label="Nawigacja stron" class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        {% if word_lists.has_previous %}
+        <li class="page-item">
+            <a class="page-link rounded-pill me-2 px-3"
+               href="?page={{ word_lists.previous_page_number }}">
+                &laquo; Poprzednia
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-pill me-2 px-3">&laquo; Poprzednia</span>
+        </li>
+        {% endif %}
+
+        {% for num in word_lists.paginator.page_range %}
+            {% if word_lists.number == num %}
+                <li class="page-item active">
+                    <span class="page-link rounded-circle mx-1">{{ num }}</span>
+                </li>
+            {% elif num > word_lists.number|add:'-3' and num < word_lists.number|add:'3' %}
+                <li class="page-item">
+                    <a class="page-link rounded-circle mx-1"
+                       href="?page={{ num }}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% if word_lists.has_next %}
+        <li class="page-item">
+            <a class="page-link rounded-pill ms-2 px-3"
+               href="?page={{ word_lists.next_page_number }}">
+                Następna &raquo;
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-pill ms-2 px-3">Następna &raquo;</span>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}

@@ -12,7 +12,7 @@ def search(request):
     query = request.GET.get('query', '').strip()
     if not query:
         return JsonResponse([], safe=False)
-    matches = EnglishWord.objects.filter(word__icontains=query).order_by(Length('word'))[:10]
+    matches = EnglishWord.objects.filter(word__icontains=query).order_by(Length('word'))[:6]
 
     words_data = [{'word': w.word, 'id': w.id} for w in matches]
     return JsonResponse(words_data, safe=False)

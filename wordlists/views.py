@@ -1,13 +1,22 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from core.models import EnglishWord, UserEnglishVocabulary, WordDefinition, WordList, WordListMembership
 from words.views import get_top_definitions_by_pos
 @login_required
+@login_required
 def view_word_lists(request):
-    word_lists = WordList.objects.filter(owner=request.user)
-    return render(request, 'wordlists/word_lists_menu.html', {'word_lists': word_lists})
+    word_lists_qs = WordList.objects.filter(owner=request.user).order_by('-id')
+
+    paginator = Paginator(word_lists_qs, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'wordlists/word_lists_menu.html', {
+        'word_lists': page_obj
+    })
 
 @login_required
 def create_word_list(request):
@@ -52,17 +61,21 @@ def delete_word_list(request, list_id):
 def add_word_to_list(request, list_id):
     word_list = get_object_or_404(WordList, id=list_id, owner=request.user)
     word_text = request.POST.get('word')
-    word = get_object_or_404(EnglishWord, word=word_text)
-    already_exists = WordListMembership.objects.filter(word=word, word_list=word_list).exists()
-    if not already_exists:
-        WordListMembership.objects.create(
-            word=word,
-            word_list=word_list,
-            added_at=timezone.now()
-        )
-        messages.success(request, f'Słowo "{word.word}" zostało dodane do listy.')
+    word = EnglishWord.objects.filter(word=word_text).first()
+    if word is not None:
+        already_exists = WordListMembership.objects.filter(word=word, word_list=word_list).exists()
+        if not already_exists:
+            WordListMembership.objects.create(
+                word=word,
+                word_list=word_list,
+                added_at=timezone.now()
+            )
+            messages.success(request, f'Słowo "{word.word}" zostało dodane do listy.')
+        else:
+            messages.error(request, 'Słowo jest już zapisane na tej liście.')
     else:
-        messages.error(request, 'Słowo jest już zapisane na tej liście.')
+        messages.error(request, 'Podane słowo nie istnieje lub zostało wpisane niepoprawnie.')
+
     return redirect('word_list_detail', list_id=list_id)
 
 @login_required

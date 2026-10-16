@@ -10,6 +10,9 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control', 'placeholder': 'hasło'}
     ))
+    error_messages = {
+        'invalid_login': 'Nieprawidłowa nazwa użytkownika lub hasło.',
+    }
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(
         required=True,

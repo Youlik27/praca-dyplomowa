@@ -1,37 +1,34 @@
 {% extends 'main/layouts/layout.html' %}
 
 {% block content %}
-
-<section class="min-vh-100 d-flex align-items-center justify-content-center bg-light py-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6 col-md-8">
-
-                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-
-                    <div class="card-header text-white text-center py-5 border-0"
+<section class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="container-fluid container-md p-0">
+        <div class="row justify-content-center m-0">
+            <div class="col-12 col-xl-5 col-lg-6 col-md-8 p-0">
+                <div class="card border-0 shadow-lg rounded-0 rounded-md-4 overflow-hidden">
+                    <div class="card-header text-white text-center py-4 border-0"
                          style="background: linear-gradient(135deg, #4e73df, #1cc88a);">
-                        <div class="display-4 mb-3">🏆</div>
+                        <div class="display-4 mb-2"><i class='bx bxs-trophy'></i></div>
                         <h2 class="fw-bold mb-0">Quiz Zakończony!</h2>
-                        <p class="small opacity-75 mb-0 mt-2">
+                        <p class="small opacity-75 mb-0 mt-1">
                             Gratulacje za ukończenie sesji
                         </p>
                     </div>
 
-                    <div class="card-body p-4 p-md-5 text-center">
+                    <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
 
-                        <div class="bg-white rounded-4 p-4 mb-4 border shadow-sm">
-                            <h6 class="text-uppercase text-muted fw-bold small mb-3">
-                                ⏱ Czas trwania
+                        <div class="bg-white rounded-4 p-3 mb-4 border shadow-sm">
+                            <h6 class="text-uppercase text-muted fw-bold small mb-2 d-flex align-items-center justify-content-center gap-1">
+                                <i class='bx bx-timer fs-5'></i> Czas trwania
                             </h6>
                             <div class="fs-4 fw-semibold">
                                 {{ minutes }} min {{ seconds }} sek
                             </div>
                         </div>
 
-                        <div class="bg-light rounded-4 p-4 mb-4 border">
-                            <h6 class="text-uppercase text-muted fw-bold small mb-3">
-                                Twój wynik
+                        <div class="bg-light rounded-4 p-3 mb-4 border">
+                            <h6 class="text-uppercase text-muted fw-bold small mb-2 d-flex align-items-center justify-content-center gap-1">
+                                <i class='bx bx-bar-chart-alt-2 fs-5'></i> Twój wynik
                             </h6>
 
                             <div class="d-flex justify-content-center align-items-baseline gap-2 mb-3">
@@ -59,28 +56,36 @@
                             </div>
                         </div>
 
-                        <div class="mb-5">
+                        <div class="mb-4">
                             {% if percentage >= 80 %}
-                            <h4 class="text-success fw-bold">Świetna robota! 🌟</h4>
-                            <p class="small text-muted">Jesteś na dobrej drodze do perfekcji.</p>
+                            <h4 class="text-success fw-bold d-flex align-items-center justify-content-center gap-2 mb-1">
+                                Świetna robota! <i class='bx bxs-star text-warning'></i>
+                            </h4>
+                            <p class="small text-muted mb-0">Jesteś na dobrej drodze do perfekcji.</p>
+
                             {% elif percentage >= 50 %}
-                            <h4 class="text-warning fw-bold">Dobry wynik! 👍</h4>
-                            <p class="small text-muted">Jeszcze trochę praktyki i będzie idealnie.</p>
+                            <h4 class="text-warning fw-bold d-flex align-items-center justify-content-center gap-2 mb-1">
+                                Dobry wynik! <i class='bx bxs-like'></i>
+                            </h4>
+                            <p class="small text-muted mb-0">Jeszcze trochę praktyki i będzie idealnie.</p>
+
                             {% else %}
-                            <h4 class="text-secondary fw-bold">Nie poddawaj się! 💪</h4>
-                            <p class="small text-muted">Trening czyni mistrza. Spróbuj ponownie.</p>
+                            <h4 class="text-secondary fw-bold d-flex align-items-center justify-content-center gap-2 mb-1">
+                                Nie poddawaj się! <i class='bx bx-dumbbell'></i>
+                            </h4>
+                            <p class="small text-muted mb-0">Trening czyni mistrza. Spróbuj ponownie.</p>
                             {% endif %}
                         </div>
 
                         <div class="d-grid gap-3">
                             <a href="{% url 'create_quiz_repeat_and_learn' %}"
-                               class="btn btn-primary btn-lg rounded-pill py-3 shadow-sm fw-semibold">
-                                🔄 Rozpocznij nowy quiz
+                               class="btn btn-primary btn-lg rounded-pill py-2 shadow-sm fw-semibold d-flex align-items-center justify-content-center gap-2">
+                                <i class='bx bx-refresh fs-4'></i> Rozpocznij nowy quiz
                             </a>
 
                             <a href="#"
-                               class="btn btn-outline-secondary rounded-pill py-2 fw-semibold">
-                                📂 Wróć do listy kategorii
+                               class="btn btn-outline-secondary rounded-pill py-2 fw-semibold d-flex align-items-center justify-content-center gap-2">
+                                <i class='bx bx-list-ul fs-5'></i> Wróć do listy kategorii
                             </a>
                         </div>
 

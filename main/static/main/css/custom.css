@@ -1,0 +1,78 @@
+/* Основной контейнер */
+.ai-response-container {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #334155; /* Мягкий графитовый цвет текста (Slate 700) */
+    line-height: 1.75;
+    font-size: 1.05rem;
+    max-width: 800px;
+}
+
+/* Заголовки */
+.ai-response-container h3 {
+    color: #0f172a; /* Глубокий темный цвет для контраста (Slate 900) */
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+}
+
+/* Абзацы */
+.ai-response-container p {
+    margin-bottom: 1.25rem;
+}
+
+/* Списки с аккуратными кастомными маркерами */
+.ai-response-container ul {
+    list-style: none; /* Убираем стандартные точки */
+    padding-left: 0;
+    margin-bottom: 1.5rem;
+}
+
+.ai-response-container li {
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.6rem;
+}
+
+/* Рисуем свои идеальные минималистичные точки для списка */
+.ai-response-container li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.65rem; /* Центрируем относительно первой строки текста */
+    width: 5px;
+    height: 5px;
+    background-color: #94a3b8; /* Мягкий серый цвет точки */
+    border-radius: 50%;
+}
+
+/* Современные цитаты */
+.ai-response-container blockquote {
+    border-left: 3px solid #e2e8f0; /* Тонкая светлая полоса */
+    color: #64748b; /* Текст цитаты чуть светлее основного */
+    margin: 1.5rem 0;
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    font-style: normal; /* Убрали курсив для большей строгости */
+}
+
+/*
+  ССЫЛКИ-СЛОВА: Премиальный стиль (без синего)
+  Выглядят как обычный текст, но интерактивные
+*/
+.word-link {
+    color: #0f172a; /* Темный текст */
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid #cbd5e1; /* Легкое, еле заметное подчеркивание */
+    padding: 2px 4px;
+    margin: 0 -2px; /* Компенсируем padding, чтобы текст не разъезжался */
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.word-link:hover {
+    background-color: #f1f5f9; /* Мягкая подсветка фона при наведении */
+    border-bottom-color: transparent; /* Подчеркивание исчезает */
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-{%extends 'main/layouts/layout.html' %}
+{% extends 'main/layouts/layout.html' %}
 {% block content %}
 <section>
     <div class="banner-wrapper bg-light">
@@ -16,14 +16,17 @@
             <div class="position-relative" style="max-width: 800px; margin: 0 auto;">
 
                 <form id="searchForm" class="d-flex justify-content-center" role="search">
-                    <input type="search" id="searchInput" class="form-control" name="query" placeholder="Szukaj..." autocomplete="off">
+                    <div class="input-group input-group-lg">
+                        <input type="search" id="searchInput" class="form-control" style="box-shadow: none !important;" name="query" placeholder="Szukaj..." autocomplete="off">
+                        <button class="btn btn-primary px-4"  style="box-shadow: none !important;" type="submit" id="searchButton">Szukaj</button>
+                    </div>
                 </form>
-                <div id="resultsList" class="text-start"></div> </div>
+                <div id="resultsList" class="text-start"></div>
             </div>
 
           </div>
         </div>
       </div>
     </div>
-  </section>
+</section>
 {% endblock %}
