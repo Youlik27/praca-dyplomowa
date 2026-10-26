@@ -21,7 +21,7 @@ except OSError:
     download("en_core_web_sm")
     nlp = spacy.load("en_core_web_sm")
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "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")
 
 
 def call_llm_api(system_prompt, user_prompt, model="openai/gpt-oss-120b"):
